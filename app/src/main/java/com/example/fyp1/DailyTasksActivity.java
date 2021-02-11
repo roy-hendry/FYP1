@@ -27,7 +27,7 @@ public class DailyTasksActivity extends AppCompatActivity {
         });
     }
     public void openNewDailyActivity() {
-        Intent intent = new Intent(this, NewDailyActivity.class);
-        startActivity(intent);
+            Intent intent = new Intent(this, NewDailyActivity.class);
+            startActivity(intent);
     }
 }
