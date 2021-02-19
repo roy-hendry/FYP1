@@ -38,7 +38,7 @@ public class NewDailyActivity extends AppCompatActivity {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                writeDailyToFile();
+                //writeDailyToFile();
                 openDailyActivity();
                 //title = titleInput.getText().toString();
                 //description = descriptionInput.getText().toString();
@@ -65,18 +65,18 @@ public class NewDailyActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void writeDailyToFile() {
-        String textForTitle = titleInput.getText().toString();
-
-        try {
-            FileOutputStream fileOutputStream = openFileOutput("DailyTasks.txt", MODE_PRIVATE);
-            fileOutputStream.write(textForTitle.getBytes());
-            fileOutputStream.close();
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+//    public void writeDailyToFile() {
+//        String textForTitle = titleInput.getText().toString();
+//
+//        try {
+//            FileOutputStream fileOutputStream = openFileOutput("DailyTasks.txt", MODE_PRIVATE);
+//            fileOutputStream.write(textForTitle.getBytes());
+//            fileOutputStream.close();
+//
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 }
