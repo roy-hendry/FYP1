@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DailyTasksActivity">
+    tools:context=".ToDoListActivity">
 
     <Button
         android:id="@+id/dailiesPageButton"
@@ -24,33 +24,33 @@
         android:text="To Do List" />
 
     <Button
-        android:id="@+id/newDailyButton"
+        android:id="@+id/newToDoTaskButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="80dp"
-        android:text="Create new daily task" />
+        android:text="Create new task" />
 
     <TextView
-        android:id="@+id/DailyTasksText"
+        android:id="@+id/ToDoTasksText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
-        android:text="Daily Tasks Page!"
+        android:text="To Do List Page!"
         />
 
     <ListView
-        android:id="@+id/taskList"
+        android:id="@+id/toDoList"
         android:layout_marginTop="190dp"
         android:layout_width="400dp"
         android:layout_height="400dp" />
 
     <EditText
-        android:id="@+id/taskEditText"
+        android:id="@+id/toDoListEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Enter task"
         android:layout_marginTop="140dp"/>
-
+    
 </RelativeLayout>
