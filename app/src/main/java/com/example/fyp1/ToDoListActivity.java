@@ -10,11 +10,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
 
-public class ToDoListActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
+public class ToDoListActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
 
     private Button newToDoTaskButton;
     private EditText toDoListEditText;
@@ -34,13 +33,14 @@ public class ToDoListActivity extends AppCompatActivity implements View.OnClickL
         toDoList = findViewById(R.id.toDoList);
 
         tasks = FileHandler.readToDoData(this);
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, tasks); //check if I can make this into a checkbox list instead of just a normal list
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, tasks); //check if I can make this into a checkbox list instead of just a normal list
         toDoList.setAdapter(adapter);
 
         newToDoTaskButton.setOnClickListener(this);
         toDoList.setOnItemClickListener(this);
+        toDoList.setOnItemLongClickListener(this);
 
-        dailiesPageButton = (Button) findViewById(R.id.dailiesPageButton);
+        dailiesPageButton = findViewById(R.id.dailiesPageButton);
         dailiesPageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)  { openDailiesActivity(); }
@@ -73,4 +73,14 @@ public class ToDoListActivity extends AppCompatActivity implements View.OnClickL
         FileHandler.writeToDoData(tasks, this);
         Toast.makeText(this, "Task Completed", Toast.LENGTH_SHORT).show();
     }
+
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+        tasks.remove(position);
+
+        adapter.notifyDataSetChanged();
+        FileHandler.writeToDoData(tasks, this);
+        Toast.makeText(this, "Task Removed", Toast.LENGTH_SHORT).show();
+        return true;
+    }
+
 }

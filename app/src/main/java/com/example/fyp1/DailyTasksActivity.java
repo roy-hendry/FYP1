@@ -35,7 +35,7 @@ public class DailyTasksActivity extends AppCompatActivity implements OnClickList
         taskList = findViewById(R.id.taskList);
 
         tasks = FileHandler.readDailiesData(this);
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, tasks); //check if I can make this into a checkbox list instead of just a normal list
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_multiple_choice, tasks); //check if I can make this into a checkbox list instead of just a normal list
         taskList.setAdapter(adapter);
 
         newDailyButton.setOnClickListener(this);
@@ -43,7 +43,7 @@ public class DailyTasksActivity extends AppCompatActivity implements OnClickList
         taskList.setOnItemLongClickListener(this);
 
 
-        toDoListPageButton = (Button) findViewById(R.id.toDoListPageButton);
+        toDoListPageButton = findViewById(R.id.toDoListPageButton);
         toDoListPageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)  { openToDoListActivity(); }
