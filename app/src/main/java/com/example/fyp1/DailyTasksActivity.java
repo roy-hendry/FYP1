@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -42,7 +44,6 @@ public class DailyTasksActivity extends AppCompatActivity implements OnClickList
         taskList.setOnItemClickListener(this);
         taskList.setOnItemLongClickListener(this);
 
-
         toDoListPageButton = findViewById(R.id.toDoListPageButton);
         toDoListPageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,7 +75,13 @@ public class DailyTasksActivity extends AppCompatActivity implements OnClickList
         v.setChecked(!v.isChecked());
         adapter.notifyDataSetChanged();
 
-        Toast.makeText(this, "Task Completed", Toast.LENGTH_SHORT).show();
+        //Log.d("test",taskList.get(position).get("ID"));
+        if (v.isChecked()) {
+            Toast.makeText(this, "Task Completed", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            Toast.makeText(this, "Task Unchecked", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
