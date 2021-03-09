@@ -14,6 +14,7 @@ public class FileHandler {
 
     public static final String DAILIES_FILENAME = "daily_tasks.dat";
     public static final String TO_DO_FILENAME = "to_do_tasks.dat";
+    public static final String CHECKBOX_STATE_FILENAME = "checkbox_states.dat";
 
     public static void writeDailiesData(ArrayList<String> tasks, Context context) {
         try {
@@ -32,6 +33,49 @@ public class FileHandler {
         ArrayList<String> taskList = null;
         try {
             FileInputStream fis = context.openFileInput(DAILIES_FILENAME);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            taskList = (ArrayList<String>) ois.readObject();
+        } catch (FileNotFoundException e) {
+            taskList = new ArrayList<>();
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return taskList;
+    }
+
+    public static void setUpCheckbox(ArrayList<String> tasks, Context context) {
+        try {
+            FileOutputStream fos = context.openFileOutput(CHECKBOX_STATE_FILENAME, Context.MODE_PRIVATE);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject("false");
+            oos.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void setCheckboxTrue(ArrayList<String> tasks, Context context) {
+        try {
+            FileOutputStream fos = context.openFileOutput(CHECKBOX_STATE_FILENAME, Context.MODE_PRIVATE);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject("true");
+            oos.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static ArrayList<String> readCheckboxData(Context context){
+        ArrayList<String> taskList = null;
+        try {
+            FileInputStream fis = context.openFileInput(CHECKBOX_STATE_FILENAME);
             ObjectInputStream ois = new ObjectInputStream(fis);
             taskList = (ArrayList<String>) ois.readObject();
         } catch (FileNotFoundException e) {

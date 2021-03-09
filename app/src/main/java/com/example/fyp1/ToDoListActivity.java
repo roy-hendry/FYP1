@@ -57,11 +57,18 @@ public class ToDoListActivity extends AppCompatActivity implements View.OnClickL
         switch (v.getId()){
             case R.id.newToDoTaskButton:
                 String taskEntered = toDoListEditText.getText().toString();
-                adapter.add(taskEntered); //make it so they can't enter something with a length of less than 1 or something with no "characters"
-                toDoListEditText.setText("");
-                FileHandler.writeToDoData(tasks, this);
-                Toast.makeText(this, "Task Added", Toast.LENGTH_SHORT).show();
-                break;
+                if (!taskEntered.trim().isEmpty()) { //if the trimmed input (input without spaces) is not empty then
+                    //continue down this flow
+                    adapter.add(taskEntered); //make it so they can't enter something with a length of less than 1 or something with no "characters"
+                    toDoListEditText.setText("");
+                    FileHandler.writeToDoData(tasks, this);
+                    Toast.makeText(this, "Task Added", Toast.LENGTH_SHORT).show();
+                    break;
+                }
+                else {
+                    //otherwise go to this flow
+                    Toast.makeText(this, "Please enter a task", Toast.LENGTH_SHORT).show();
+                }
         }
     }
 

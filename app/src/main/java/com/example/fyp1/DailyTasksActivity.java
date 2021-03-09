@@ -26,6 +26,7 @@ public class DailyTasksActivity extends AppCompatActivity implements OnClickList
 
     private ArrayList<String> tasks;
     private ArrayAdapter<String> adapter;
+    private ArrayList<String> checkboxState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +40,8 @@ public class DailyTasksActivity extends AppCompatActivity implements OnClickList
         tasks = FileHandler.readDailiesData(this);
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_multiple_choice, tasks); //check if I can make this into a checkbox list instead of just a normal list
         taskList.setAdapter(adapter);
+
+        checkboxState = FileHandler.readCheckboxData(this);
 
         newDailyButton.setOnClickListener(this);
         taskList.setOnItemClickListener(this);
@@ -61,11 +64,18 @@ public class DailyTasksActivity extends AppCompatActivity implements OnClickList
         switch (v.getId()){
             case R.id.newDailyButton:
                 String taskEntered = taskEditText.getText().toString();
-                adapter.add(taskEntered); //make it so they can't enter something with a length of less than 1 or something with no "characters"
-                taskEditText.setText("");
-                FileHandler.writeDailiesData(tasks, this);
-                Toast.makeText(this, "Task Added", Toast.LENGTH_SHORT).show();
-                break;
+                if (!taskEntered.trim().isEmpty()) {
+                    adapter.add(taskEntered); //make it so they can't enter something with a length of less than 1 or something with no "characters"
+                    taskEditText.setText("");
+                    FileHandler.writeDailiesData(tasks, this);
+                    FileHandler.setUpCheckbox(checkboxState, this);
+                    System.out.println(checkboxState);
+                    Toast.makeText(this, "Task Added", Toast.LENGTH_SHORT).show();
+                    break;
+                }
+                else{
+                    Toast.makeText(this, "Please enter a task", Toast.LENGTH_SHORT).show();
+                }
         }
     }
 
@@ -74,6 +84,7 @@ public class DailyTasksActivity extends AppCompatActivity implements OnClickList
         CheckedTextView v = (CheckedTextView) view;
         v.setChecked(!v.isChecked());
         adapter.notifyDataSetChanged();
+        System.out.println(tasks);
 
         //Log.d("test",taskList.get(position).get("ID"));
         if (v.isChecked()) {
