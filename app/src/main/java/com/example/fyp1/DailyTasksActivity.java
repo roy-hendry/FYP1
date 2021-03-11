@@ -4,17 +4,18 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.CheckedTextView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import java.io.File;
 import java.util.ArrayList;
 
 public class DailyTasksActivity extends AppCompatActivity implements OnClickListener, AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
@@ -25,8 +26,8 @@ public class DailyTasksActivity extends AppCompatActivity implements OnClickList
     private Button toDoListPageButton;
 
     private ArrayList<String> tasks;
-    private ArrayAdapter<String> adapter;
     private ArrayList<String> checkboxState;
+    private ArrayAdapter<String> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,10 +39,21 @@ public class DailyTasksActivity extends AppCompatActivity implements OnClickList
         taskList = findViewById(R.id.taskList);
 
         tasks = FileHandler.readDailiesData(this);
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_multiple_choice, tasks); //check if I can make this into a checkbox list instead of just a normal list
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_multiple_choice, tasks);
         taskList.setAdapter(adapter);
 
-        checkboxState = FileHandler.readCheckboxData(this);
+//        checkboxState = new ArrayList<>(tasks.size());
+//        for (int i=0; i<tasks.size(); i++) {
+//            checkboxState.add(" ");
+//        }
+
+
+//        checkboxState.set(0, "true");
+//        checkboxState.set(1, "false");
+        checkboxState = returnCheckboxState();
+
+        System.out.println("tasks: "+ tasks);
+        System.out.println("checkboxState: "+ checkboxState);
 
         newDailyButton.setOnClickListener(this);
         taskList.setOnItemClickListener(this);
@@ -67,9 +79,12 @@ public class DailyTasksActivity extends AppCompatActivity implements OnClickList
                 if (!taskEntered.trim().isEmpty()) {
                     adapter.add(taskEntered); //make it so they can't enter something with a length of less than 1 or something with no "characters"
                     taskEditText.setText("");
+                    checkboxState.add("false");
                     FileHandler.writeDailiesData(tasks, this);
                     FileHandler.setUpCheckbox(checkboxState, this);
-                    System.out.println(checkboxState);
+
+
+                    //System.out.println(checkboxState);
                     Toast.makeText(this, "Task Added", Toast.LENGTH_SHORT).show();
                     break;
                 }
@@ -81,27 +96,56 @@ public class DailyTasksActivity extends AppCompatActivity implements OnClickList
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        System.out.println("view: "+ view);
         CheckedTextView v = (CheckedTextView) view;
         v.setChecked(!v.isChecked());
         adapter.notifyDataSetChanged();
-        System.out.println(tasks);
+
 
         //Log.d("test",taskList.get(position).get("ID"));
         if (v.isChecked()) {
             Toast.makeText(this, "Task Completed", Toast.LENGTH_SHORT).show();
+            System.out.println("Checked: "+ position);
+            checkboxState.set(position, "true");
+            //FileHandler.setCheckboxValue(checkboxState, this);
         }
         else {
             Toast.makeText(this, "Task Unchecked", Toast.LENGTH_SHORT).show();
+            System.out.println("Unchecked: "+ position);
+            checkboxState.set(position, "false");
+            //FileHandler.setCheckboxValue(checkboxState, this);
         }
+        FileHandler.setCheckboxValue(checkboxState, this);
+        System.out.println(checkboxState);
+
     }
 
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
         tasks.remove(position);
-
         adapter.notifyDataSetChanged();
+        checkboxState.remove(position);
+
         FileHandler.writeDailiesData(tasks, this);
+        FileHandler.setCheckboxValue(checkboxState, this);
         Toast.makeText(this, "Task Removed", Toast.LENGTH_SHORT).show();
+
         return true;
+    }
+
+    public ArrayList<String> returnCheckboxState() {
+        checkboxState = FileHandler.readCheckboxData(this);
+        for (int i=0; i<checkboxState.size(); i++) {
+            if (checkboxState.get(i).equals("true")) {
+                System.out.println("meme");
+                taskList.setItemChecked(i, true);
+//                View v = taskList.getChildAt(i);
+//                System.out.println("view v: "+ v);
+//                CheckedTextView ctv = (CheckedTextView) v;
+//                ctv.setChecked(true);
+                adapter.notifyDataSetChanged();
+            }
+        }
+        return checkboxState;
     }
 }

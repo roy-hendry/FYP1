@@ -1,6 +1,7 @@
 package com.example.fyp1;
 
 import android.content.Context;
+import android.widget.CheckedTextView;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -9,12 +10,13 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class FileHandler {
 
-    public static final String DAILIES_FILENAME = "daily_tasks.dat";
-    public static final String TO_DO_FILENAME = "to_do_tasks.dat";
-    public static final String CHECKBOX_STATE_FILENAME = "checkbox_states.dat";
+    public static final String DAILIES_FILENAME = "daily_tasks.txt";
+    public static final String TO_DO_FILENAME = "to_do_tasks.txt";
+    public static final String CHECKBOX_STATE_FILENAME = "checkbox_states.txt";
 
     public static void writeDailiesData(ArrayList<String> tasks, Context context) {
         try {
@@ -46,11 +48,12 @@ public class FileHandler {
         return taskList;
     }
 
-    public static void setUpCheckbox(ArrayList<String> tasks, Context context) {
+
+    public static void setUpCheckbox(ArrayList<String> checkboxState, Context context) {
         try {
             FileOutputStream fos = context.openFileOutput(CHECKBOX_STATE_FILENAME, Context.MODE_PRIVATE);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
-            oos.writeObject("false");
+            oos.writeObject(checkboxState);
             oos.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -59,11 +62,11 @@ public class FileHandler {
         }
     }
 
-    public static void setCheckboxTrue(ArrayList<String> tasks, Context context) {
+    public static void setCheckboxValue(ArrayList<String> checkboxStateArrayList, Context context) {
         try {
             FileOutputStream fos = context.openFileOutput(CHECKBOX_STATE_FILENAME, Context.MODE_PRIVATE);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
-            oos.writeObject("true");
+            oos.writeObject(checkboxStateArrayList);
             oos.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -73,23 +76,23 @@ public class FileHandler {
     }
 
     public static ArrayList<String> readCheckboxData(Context context){
-        ArrayList<String> taskList = null;
+        ArrayList<String> checkboxList = null;
         try {
             FileInputStream fis = context.openFileInput(CHECKBOX_STATE_FILENAME);
             ObjectInputStream ois = new ObjectInputStream(fis);
-            taskList = (ArrayList<String>) ois.readObject();
+            checkboxList = (ArrayList<String>) ois.readObject();
         } catch (FileNotFoundException e) {
-            taskList = new ArrayList<>();
+            checkboxList = new ArrayList<>();
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        return taskList;
+        return checkboxList;
     }
 
-    public static void writeToDoData(ArrayList<String> tasks, Context context) {
+        public static void writeToDoData(ArrayList<String> tasks, Context context) {
         try {
             FileOutputStream fos = context.openFileOutput(TO_DO_FILENAME, Context.MODE_PRIVATE);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
