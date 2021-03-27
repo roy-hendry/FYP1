@@ -13,21 +13,25 @@ import android.widget.CheckBox;
 import android.widget.CheckedTextView;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 public class DailyTasksActivity extends AppCompatActivity implements OnClickListener, AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
 
     private Button newDailyButton;
     private EditText taskEditText;
     private ListView taskList;
+    private ListView taskListState;
     private Button toDoListPageButton;
 
     private ArrayList<String> tasks;
     private ArrayList<String> checkboxState;
     private ArrayAdapter<String> adapter;
+    private ArrayAdapter<String> adapterSecondary;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,20 +41,14 @@ public class DailyTasksActivity extends AppCompatActivity implements OnClickList
         taskEditText = findViewById(R.id.taskEditText);
         newDailyButton = findViewById(R.id.newDailyButton);
         taskList = findViewById(R.id.taskList);
+        taskListState = findViewById(R.id.taskListState);
 
         tasks = FileHandler.readDailiesData(this);
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_multiple_choice, tasks);
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, tasks);
         taskList.setAdapter(adapter);
-
-//        checkboxState = new ArrayList<>(tasks.size());
-//        for (int i=0; i<tasks.size(); i++) {
-//            checkboxState.add(" ");
-//        }
-
-
-//        checkboxState.set(0, "true");
-//        checkboxState.set(1, "false");
-        checkboxState = returnCheckboxState();
+        checkboxState = FileHandler.readCheckboxData(this);
+        adapterSecondary = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, checkboxState);
+        taskListState.setAdapter(adapterSecondary);
 
         System.out.println("tasks: "+ tasks);
         System.out.println("checkboxState: "+ checkboxState);
@@ -83,8 +81,6 @@ public class DailyTasksActivity extends AppCompatActivity implements OnClickList
                     FileHandler.writeDailiesData(tasks, this);
                     FileHandler.setUpCheckbox(checkboxState, this);
 
-
-                    //System.out.println(checkboxState);
                     Toast.makeText(this, "Task Added", Toast.LENGTH_SHORT).show();
                     break;
                 }
@@ -96,27 +92,24 @@ public class DailyTasksActivity extends AppCompatActivity implements OnClickList
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        System.out.println("view: "+ view);
-        CheckedTextView v = (CheckedTextView) view;
-        v.setChecked(!v.isChecked());
-        adapter.notifyDataSetChanged();
+        System.out.println("Clicked view: "+ view);
 
-
-        //Log.d("test",taskList.get(position).get("ID"));
-        if (v.isChecked()) {
+        if (checkboxState.get(position).equals("false")) {
             Toast.makeText(this, "Task Completed", Toast.LENGTH_SHORT).show();
             System.out.println("Checked: "+ position);
             checkboxState.set(position, "true");
-            //FileHandler.setCheckboxValue(checkboxState, this);
         }
         else {
             Toast.makeText(this, "Task Unchecked", Toast.LENGTH_SHORT).show();
             System.out.println("Unchecked: "+ position);
             checkboxState.set(position, "false");
-            //FileHandler.setCheckboxValue(checkboxState, this);
         }
+
         FileHandler.setCheckboxValue(checkboxState, this);
         System.out.println(checkboxState);
+        checkboxState = FileHandler.readCheckboxData(this);
+        adapterSecondary = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, checkboxState);
+        taskListState.setAdapter(adapterSecondary);
 
     }
 
@@ -133,19 +126,4 @@ public class DailyTasksActivity extends AppCompatActivity implements OnClickList
         return true;
     }
 
-    public ArrayList<String> returnCheckboxState() {
-        checkboxState = FileHandler.readCheckboxData(this);
-        for (int i=0; i<checkboxState.size(); i++) {
-            if (checkboxState.get(i).equals("true")) {
-                System.out.println("meme");
-                taskList.setItemChecked(i, true);
-//                View v = taskList.getChildAt(i);
-//                System.out.println("view v: "+ v);
-//                CheckedTextView ctv = (CheckedTextView) v;
-//                ctv.setChecked(true);
-                adapter.notifyDataSetChanged();
-            }
-        }
-        return checkboxState;
-    }
 }

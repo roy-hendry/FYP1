@@ -42,9 +42,16 @@
 
     <ListView
         android:id="@+id/taskList"
+        android:layout_width="316dp"
+        android:layout_height="396dp"
+        android:layout_marginTop="190dp" />
+
+    <ListView
+        android:id="@+id/taskListState"
+        android:layout_width="90dp"
+        android:layout_height="396dp"
         android:layout_marginTop="190dp"
-        android:layout_width="400dp"
-        android:layout_height="400dp" />
+        android:layout_marginLeft="316dp" />
 
     <EditText
         android:id="@+id/taskEditText"
