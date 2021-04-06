@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".DailyTasksActivity">
 
+    <!-- Creating Button to access the daily page -->
     <Button
         android:id="@+id/dailiesPageButton"
         android:layout_width="wrap_content"
@@ -15,6 +16,7 @@
         android:layout_marginTop="610dp"
         android:text="Dailies" />
 
+    <!-- Creating Button to access the to do list page -->
     <Button
         android:id="@+id/toDoListPageButton"
         android:layout_width="wrap_content"
@@ -23,6 +25,7 @@
         android:layout_marginTop="610dp"
         android:text="To Do List" />
 
+    <!-- Creating Button to make a new daily task -->
     <Button
         android:id="@+id/newDailyButton"
         android:layout_width="wrap_content"
@@ -31,6 +34,7 @@
         android:layout_marginTop="80dp"
         android:text="Create new daily task" />
 
+    <!-- Creating a TextView to show the current page is the daily task page -->
     <TextView
         android:id="@+id/DailyTasksText"
         android:layout_width="wrap_content"
@@ -40,19 +44,22 @@
         android:text="Daily Tasks Page!"
         />
 
+    <!-- Creating the ListView to contain all of the tasks the user has made -->
     <ListView
         android:id="@+id/taskList"
-        android:layout_width="316dp"
+        android:layout_width="270dp"
         android:layout_height="396dp"
         android:layout_marginTop="190dp" />
 
+    <!-- Creating a ListView to contain the state of each task the user has made -->
     <ListView
         android:id="@+id/taskListState"
-        android:layout_width="90dp"
+        android:layout_width="250dp"
         android:layout_height="396dp"
         android:layout_marginTop="190dp"
-        android:layout_marginLeft="316dp" />
+        android:layout_marginLeft="270dp" />
 
+    <!-- Creating a EditText text box which allows the user to type in it -->
     <EditText
         android:id="@+id/taskEditText"
         android:layout_width="match_parent"

@@ -1,7 +1,6 @@
 package com.example.fyp1;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import androidx.appcompat.app.AppCompatActivity; // importing required packages
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -15,43 +14,58 @@ import java.util.ArrayList;
 
 public class ToDoListActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
 
-    private Button newToDoTaskButton;
+    private Button newToDoTaskButton; // declaring private views (interfaces)
     private EditText toDoListEditText;
     private ListView toDoList;
     private Button dailiesPageButton;
 
-    private ArrayList<String> tasks;
-    private ArrayAdapter<String> adapter;
+    private ArrayList<String> tasks; // declaring a private ArrayLists to store all of the tasks the user has made
+    private ArrayAdapter<String> adapter; // declaring adapter ArrayList to interact with elements of the ListView
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_to_do_list);
+        setContentView(R.layout.activity_to_do_list); // link up the activity_to_do_list.xml file to this file as the corresponding file
 
-        toDoListEditText = findViewById(R.id.toDoListEditText);
+        toDoListEditText = findViewById(R.id.toDoListEditText); // attaching the xml interfaces to the interfaces we made above
         newToDoTaskButton = findViewById(R.id.newToDoTaskButton);
         toDoList = findViewById(R.id.toDoList);
-
-        tasks = FileHandler.readToDoData(this);
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, tasks); //check if I can make this into a checkbox list instead of just a normal list
-        toDoList.setAdapter(adapter);
-
-        newToDoTaskButton.setOnClickListener(this);
-        toDoList.setOnItemClickListener(this);
-        toDoList.setOnItemLongClickListener(this);
-
         dailiesPageButton = findViewById(R.id.dailiesPageButton);
+
+        tasks = FileHandler.readToDoData(this); // calls the readToDoData method inside the FileHandler to recall data written from the appropriate file and reload it
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, tasks); // create a new ArrayAdapter that uses a simple list based off the tasks
+        toDoList.setAdapter(adapter); // setting the new ArrayAdapter to correspond with the ListView of tasks
+
+        newToDoTaskButton.setOnClickListener(this); // setting newToDoTaskButton have onClick capabilities
+        toDoList.setOnItemClickListener(this); // onClick capabilities for the ListView
+        toDoList.setOnItemLongClickListener(this); // onLongClick capabilities for the ListView (click and hold for over a second)
+
+        // setting dailiesPageButton to have onClick capabilities
         dailiesPageButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)  { openDailiesActivity(); }
+            public void onClick(View v)  { openDailiesActivity(); } // when clicked it will call the OpenDailiesActivity method
         });
     }
-
+    /**
+     * This method will call the startActivity method and pass the intent to it this will let it
+     * know which page to go to, in this case that will be the DailyTasksActivity page
+     */
     public void openDailiesActivity() {
         Intent intent = new Intent(this, DailyTasksActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * This method will be called when a user clicks the newDailyButton when clicked will take the
+     * string inside the EditText box known as "taskEditText" and it will check if the string is
+     * empty if all of the spaces are taken out.
+     * If the string is not empty then set the text box
+     * to empty, create a new task with the string from the EditText box and write the value of the
+     * new task to the toDoList task file then show a toast saying "Task Added".
+     * If the box is empty when trimmed then show a toast saying "Please enter a task".
+     *
+     * @param  v  The view of the button being clicked
+     */
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -72,6 +86,16 @@ public class ToDoListActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
+    /**
+     * When called this method will remove the task corresponding with it's position and then
+     * write the updated tasks ArrayList to the ToDoList file. A toast is shown saying "Task
+     * Completed".
+     *
+     * @param  parent  The parent adapter view
+     * @param  view  The current view
+     * @param  position  The Integer position of the item clicked (the first being 0)
+     * @param  id  The id given to the item clicked
+     */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         tasks.remove(position);
@@ -81,6 +105,20 @@ public class ToDoListActivity extends AppCompatActivity implements View.OnClickL
         Toast.makeText(this, "Task Completed", Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * When called this method will remove the task corresponding with the position
+     * of the item clicked and held. The new tasks ArrayList values are written
+     * to the file to update it now that the change have been made. A toast is made to show
+     * "Tasks Removed". A boolean value is returned. This is just due to onItemLongClick
+     * needing to be a boolean type method so any boolean value is required to be returned.
+     *
+     * @param  parent  The parent adapter view
+     * @param  view  The current view
+     * @param  position  The Integer position of the item clicked (the first being 0)
+     * @param  id  The id given to the item clicked
+     * @return true there is a clash if this onItemLongClick doesn't return a boolean value
+     * so we make it return any boolean value
+     */
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
         tasks.remove(position);
 
