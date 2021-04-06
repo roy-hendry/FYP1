@@ -14,6 +14,22 @@ public class FileHandler {
     public static final String DAILIES_FILENAME = "daily_tasks.txt"; // making the names of each filename static final values as they won't be changed
     public static final String TO_DO_FILENAME = "to_do_tasks.txt";
     public static final String CHECKBOX_STATE_FILENAME = "checkbox_states.txt";
+    public static final String HEALTH_VALUE_FILENAME = "health_value.txt";
+    public static final String GOLD_VALUE_FILENAME = "gold_value.txt";
+
+
+    public static void writeHealth(int health, Context context) {
+        try {
+            FileOutputStream fos = context.openFileOutput(HEALTH_VALUE_FILENAME, Context.MODE_PRIVATE);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(health);
+            oos.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * Writes the ArrayList to the file name "DAILIES_FILENAME" in a private file.

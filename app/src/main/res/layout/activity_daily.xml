@@ -1,28 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".DailyTasksActivity">
+
+    <TextView
+        android:id="@+id/goldText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginRight="30dp"
+        android:text="Gold: " />
+
+    <TextView
+        android:id="@+id/goldValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="30dp"
+        android:text=" xxx " />
+
+    <TextView
+        android:id="@+id/healthText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="10dp"
+        android:text="Health: " />
+
+    <TextView
+        android:id="@+id/healthValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="80dp"
+        android:layout_marginTop="10dp"
+        android:text=" xxx " />
 
     <!-- Creating Button to access the daily page -->
     <Button
         android:id="@+id/dailiesPageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="610dp"
+        android:layout_marginBottom="20dp"
         android:text="Dailies" />
 
-    <!-- Creating Button to access the to do list page -->
+    <!-- Creating Button to access the daily page -->
     <Button
         android:id="@+id/toDoListPageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_marginLeft="110dp"
         android:layout_marginTop="610dp"
+        android:layout_marginBottom="20dp"
         android:text="To Do List" />
 
     <!-- Creating Button to make a new daily task -->

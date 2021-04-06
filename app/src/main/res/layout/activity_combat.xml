@@ -3,8 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ToDoListActivity">
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/goldText"
@@ -50,38 +49,14 @@
         android:layout_marginBottom="20dp"
         android:text="To Do List" />
 
-    <!-- Creating Button to make a new task -->
-    <Button
-        android:id="@+id/newToDoTaskButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="80dp"
-        android:text="Create new task" />
-
     <!-- Creating a TextView to show the current page is the to do list page -->
     <TextView
-        android:id="@+id/ToDoTasksText"
+        android:id="@+id/ShopText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
-        android:text="To Do List Page!"
+        android:text="Combat Page!"
         />
 
-    <!-- Creating the ListView to contain all of the tasks the user has made -->
-    <ListView
-        android:id="@+id/toDoList"
-        android:layout_marginTop="190dp"
-        android:layout_width="400dp"
-        android:layout_height="400dp" />
-
-    <!-- Creating a EditText text box which allows the user to type in it -->
-    <EditText
-        android:id="@+id/toDoListEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Enter task"
-        android:layout_marginTop="140dp"/>
-    
 </RelativeLayout>

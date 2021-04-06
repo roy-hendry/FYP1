@@ -21,6 +21,7 @@ public class DailyTasksActivity extends AppCompatActivity implements OnClickList
     private ListView taskListState;
     private Button toDoListPageButton;
 
+
     private ArrayList<String> tasks; // declaring a private ArrayLists to store all of the tasks the user has made
     private ArrayList<String> checkboxState; // declaring a private ArrayList to reflect the state of the tasks on the tasks ArrayList
     private ArrayAdapter<String> adapter; // declaring adapter ArrayList to interact with elements of the ListView
