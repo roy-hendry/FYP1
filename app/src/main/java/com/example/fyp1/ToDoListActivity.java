@@ -2,6 +2,7 @@ package com.example.fyp1;
 
 import androidx.appcompat.app.AppCompatActivity; // importing required packages
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -9,7 +10,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import java.io.File;
 import java.util.ArrayList;
 
 public class ToDoListActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
@@ -17,7 +21,20 @@ public class ToDoListActivity extends AppCompatActivity implements View.OnClickL
     private Button newToDoTaskButton; // declaring private views (interfaces)
     private EditText toDoListEditText;
     private ListView toDoList;
+
     private Button dailiesPageButton;
+    private Button shopPageButton;
+    private Button combatPageButton;
+
+    private TextView healthTextView;
+    private TextView goldTextView;
+
+    private int healthValue;
+    private int goldValue;
+
+    public static final String SHARED_PREFERENCES = "sharedPreferences";
+    public static final String HEALTH_VALUE = "healthValue";
+    public static final String GOLD_VALUE = "goldValue";
 
     private ArrayList<String> tasks; // declaring a private ArrayLists to store all of the tasks the user has made
     private ArrayAdapter<String> adapter; // declaring adapter ArrayList to interact with elements of the ListView
@@ -31,10 +48,17 @@ public class ToDoListActivity extends AppCompatActivity implements View.OnClickL
         newToDoTaskButton = findViewById(R.id.newToDoTaskButton);
         toDoList = findViewById(R.id.toDoList);
         dailiesPageButton = findViewById(R.id.dailiesPageButton);
+        shopPageButton = findViewById(R.id.shopPageButton);
+        combatPageButton = findViewById(R.id.combatPageButton);
+        healthTextView = findViewById(R.id.healthValueTextView);
+        goldTextView = findViewById(R.id.goldValueTextView);
 
         tasks = FileHandler.readToDoData(this); // calls the readToDoData method inside the FileHandler to recall data written from the appropriate file and reload it
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, tasks); // create a new ArrayAdapter that uses a simple list based off the tasks
         toDoList.setAdapter(adapter); // setting the new ArrayAdapter to correspond with the ListView of tasks
+
+        healthTextView.setText(String.valueOf(healthValue));
+        goldTextView.setText(String.valueOf(goldValue));
 
         newToDoTaskButton.setOnClickListener(this); // setting newToDoTaskButton have onClick capabilities
         toDoList.setOnItemClickListener(this); // onClick capabilities for the ListView
@@ -45,13 +69,48 @@ public class ToDoListActivity extends AppCompatActivity implements View.OnClickL
             @Override
             public void onClick(View v)  { openDailiesActivity(); } // when clicked it will call the OpenDailiesActivity method
         });
+
+        // setting shopButton to have onClick capabilities
+        shopPageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)  { openShopActivity(); } // when clicked it will call the OpenShopActivity method
+        });
+
+        // setting combatButton to have onClick capabilities
+        combatPageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)  { openCombatActivity(); } // when clicked it will call the OpenCombatActivity method
+        });
+
+        loadData();
     }
     /**
      * This method will call the startActivity method and pass the intent to it this will let it
      * know which page to go to, in this case that will be the DailyTasksActivity page
      */
     public void openDailiesActivity() {
+        saveData();
         Intent intent = new Intent(this, DailyTasksActivity.class);
+        startActivity(intent);
+    }
+
+    /**
+     * This method will call the startActivity method and pass the intent to it this will let it
+     * know which page to go to, in this case that will be the Shop page
+     */
+    public void openShopActivity() {
+        saveData();
+        Intent intent = new Intent(this, ShopActivity.class);
+        startActivity(intent);
+    }
+
+    /**
+     * This method will call the startActivity method and pass the intent to it this will let it
+     * know which page to go to, in this case that will be the Combat page
+     */
+    public void openCombatActivity() {
+        saveData();
+        Intent intent = new Intent(this, CombatActivity.class);
         startActivity(intent);
     }
 
@@ -102,6 +161,8 @@ public class ToDoListActivity extends AppCompatActivity implements View.OnClickL
 
         adapter.notifyDataSetChanged();
         FileHandler.writeToDoData(tasks, this);
+        goldValue = goldValue + 5;
+        goldTextView.setText(String.valueOf(goldValue));
         Toast.makeText(this, "Task Completed", Toast.LENGTH_SHORT).show();
     }
 
@@ -126,6 +187,26 @@ public class ToDoListActivity extends AppCompatActivity implements View.OnClickL
         FileHandler.writeToDoData(tasks, this);
         Toast.makeText(this, "Task Removed", Toast.LENGTH_SHORT).show();
         return true;
+    }
+
+    public void saveData() {
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putInt(HEALTH_VALUE, healthValue);
+        editor.putInt(GOLD_VALUE, goldValue);
+
+        editor.commit();
+    }
+
+    public void loadData() {
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
+
+        healthValue = sharedPreferences.getInt(HEALTH_VALUE, 100);
+        healthTextView.setText(String.valueOf(healthValue));
+
+        goldValue = sharedPreferences.getInt(GOLD_VALUE, 0);
+        goldTextView.setText(String.valueOf(goldValue));
     }
 
 }

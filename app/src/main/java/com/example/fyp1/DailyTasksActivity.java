@@ -2,6 +2,7 @@ package com.example.fyp1;
 
 import androidx.appcompat.app.AppCompatActivity; // importing required packages
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -10,20 +11,33 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
 
 public class DailyTasksActivity extends AppCompatActivity implements OnClickListener, AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
 
     private Button newDailyButton; // declaring private views (interfaces)
+    private Button beforeBedCashInButton;
     private EditText taskEditText;
     private ListView taskList;
     private ListView taskListState;
-    private Button toDoListPageButton;
 
+    private Button toDoListPageButton;
+    private Button shopPageButton;
+    private Button combatPageButton;
+
+    private TextView healthTextView;
+    private TextView goldTextView;
+    private int healthValue;
+    private int goldValue;
+
+    public static final String SHARED_PREFERENCES = "sharedPreferences";
+    public static final String HEALTH_VALUE = "healthValue";
+    public static final String GOLD_VALUE = "goldValue";
 
     private ArrayList<String> tasks; // declaring a private ArrayLists to store all of the tasks the user has made
-    private ArrayList<String> checkboxState; // declaring a private ArrayList to reflect the state of the tasks on the tasks ArrayList
+    private ArrayList<String> taskState; // declaring a private ArrayList to reflect the state of the tasks on the tasks ArrayList
     private ArrayAdapter<String> adapter; // declaring adapter ArrayList to interact with elements of the ListView
     private ArrayAdapter<String> adapterSecondary; // declaring adapter ArrayList to interact with elements of the task ListView's states
 
@@ -34,22 +48,31 @@ public class DailyTasksActivity extends AppCompatActivity implements OnClickList
 
         taskEditText = findViewById(R.id.taskEditText); // attaching the xml interfaces to the interfaces we made above
         newDailyButton = findViewById(R.id.newDailyButton);
+        beforeBedCashInButton = findViewById(R.id.cashIn);
         taskList = findViewById(R.id.taskList);
         taskListState = findViewById(R.id.taskListState);
         toDoListPageButton = findViewById(R.id.toDoListPageButton);
+        shopPageButton = findViewById(R.id.shopPageButton);
+        combatPageButton = findViewById(R.id.combatPageButton);
+        healthTextView = findViewById(R.id.healthValueTextView);
+        goldTextView = findViewById(R.id.goldValueTextView);
 
         tasks = FileHandler.readDailiesData(this); // calls the readDailiesData method inside the FileHandler to recall data written from the appropriate file and reload it
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, tasks); // create a new ArrayAdapter that uses a simple list based off the tasks
         taskList.setAdapter(adapter); // setting the new ArrayAdapter to correspond with the ListView of tasks
-        checkboxState = FileHandler.readCheckboxData(this); // by calling readCheckBoxData data will be read from inside the appropriate
+        taskState = FileHandler.readCheckboxData(this); // by calling readCheckBoxData data will be read from inside the appropriate
                                                                     // file and loaded to set the checkbox states to what they were previously
-        adapterSecondary = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, checkboxState); // the same as the lines above but for the status ListView
+        adapterSecondary = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, taskState); // the same as the lines above but for the status ListView
         taskListState.setAdapter(adapterSecondary);
 
+        healthTextView.setText(String.valueOf(healthValue));
+        goldTextView.setText(String.valueOf(goldValue));
+
         System.out.println("tasks: "+ tasks);
-        System.out.println("checkboxState: "+ checkboxState);
+        System.out.println("checkboxState: "+ taskState);
 
         newDailyButton.setOnClickListener(this); // setting newDailyButton have onClick capabilities
+        beforeBedCashInButton.setOnClickListener(this); // setting beforeBedCashInButton have onClick capabilities
         taskList.setOnItemClickListener(this); // onClick capabilities for the ListView
         taskList.setOnItemLongClickListener(this); // onLongClick capabilities for the ListView (click and hold for over a second)
 
@@ -58,6 +81,26 @@ public class DailyTasksActivity extends AppCompatActivity implements OnClickList
             @Override
             public void onClick(View v)  { openToDoListActivity(); } // when clicked it will call the OpenToDoListActivity method
         });
+
+        // setting shopButton to have onClick capabilities
+        shopPageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)  { openShopActivity(); } // when clicked it will call the OpenShopActivity method
+        });
+
+        // setting combatButton to have onClick capabilities
+        combatPageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)  { openCombatActivity(); } // when clicked it will call the OpenCombatActivity method
+        });
+
+        beforeBedCashInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) { beforeBedCashIn(); }
+
+        });
+
+        loadData();
     }
 
     /**
@@ -65,7 +108,28 @@ public class DailyTasksActivity extends AppCompatActivity implements OnClickList
      * know which page to go to, in this case that will be the ToDoList page
      */
     public void openToDoListActivity() {
+        saveData();
         Intent intent = new Intent(this, ToDoListActivity.class);
+        startActivity(intent);
+    }
+
+    /**
+     * This method will call the startActivity method and pass the intent to it this will let it
+     * know which page to go to, in this case that will be the Shop page
+     */
+    public void openShopActivity() {
+        saveData();
+        Intent intent = new Intent(this, ShopActivity.class);
+        startActivity(intent);
+    }
+
+    /**
+     * This method will call the startActivity method and pass the intent to it this will let it
+     * know which page to go to, in this case that will be the Combat page
+     */
+    public void openCombatActivity() {
+        saveData();
+        Intent intent = new Intent(this, CombatActivity.class);
         startActivity(intent);
     }
 
@@ -89,9 +153,9 @@ public class DailyTasksActivity extends AppCompatActivity implements OnClickList
                 if (!taskEntered.trim().isEmpty()) { // if the task is not empty when it has spaces removed then...
                     adapter.add(taskEntered); //make it so they can't enter something with a length of less than 1 or something with no "characters"
                     taskEditText.setText("");
-                    checkboxState.add("Incomplete");
+                    taskState.add("Incomplete");
                     FileHandler.writeDailiesData(tasks, this);
-                    FileHandler.setCheckboxValue(checkboxState, this);
+                    FileHandler.setCheckboxValue(taskState, this);
 
                     Toast.makeText(this, "Task Added", Toast.LENGTH_SHORT).show();
                     break;
@@ -101,6 +165,37 @@ public class DailyTasksActivity extends AppCompatActivity implements OnClickList
                 }
         }
     }
+
+    public void beforeBedCashIn() {
+        int counterCompleted = 0;
+        int counterIncomplete = 0;
+        for (int i=0; i < taskState.size(); i++) {
+            if (taskState.get(i).equals("Completed")) {
+                taskState.set(i, "Incomplete");
+                counterCompleted = counterCompleted + 1;
+            }
+            else {
+                counterIncomplete = counterIncomplete + 1;
+            }
+        }
+        healthValue = healthValue - (counterIncomplete*5);
+        goldValue = goldValue + (counterCompleted*10);
+
+        healthTextView.setText(String.valueOf(healthValue));
+        goldTextView.setText(String.valueOf(goldValue));
+
+        FileHandler.writeDailiesData(tasks, this);
+        FileHandler.setCheckboxValue(taskState, this);
+
+        taskState = FileHandler.readCheckboxData(this);
+        adapterSecondary = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, taskState);
+        taskListState.setAdapter(adapterSecondary);
+        Toast.makeText(this, "Your tasks have been cashed in, Good night", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Good night!", Toast.LENGTH_SHORT).show();
+
+        saveData();
+    }
+
 
     /**
      * When called this method will check if the corresponding position of the item clicked is
@@ -118,21 +213,21 @@ public class DailyTasksActivity extends AppCompatActivity implements OnClickList
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         System.out.println("Clicked view: "+ view);
 
-        if (checkboxState.get(position).equals("Incomplete")) {
+        if (taskState.get(position).equals("Incomplete")) {
             Toast.makeText(this, "Task Completed", Toast.LENGTH_SHORT).show();
             System.out.println("Checked: "+ position);
-            checkboxState.set(position, "Completed");
+            taskState.set(position, "Completed");
         }
         else {
             Toast.makeText(this, "Task undone", Toast.LENGTH_SHORT).show();
             System.out.println("Unchecked: "+ position);
-            checkboxState.set(position, "Incomplete");
+            taskState.set(position, "Incomplete");
         }
 
-        FileHandler.setCheckboxValue(checkboxState, this);
-        System.out.println(checkboxState);
-        checkboxState = FileHandler.readCheckboxData(this);
-        adapterSecondary = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, checkboxState);
+        FileHandler.setCheckboxValue(taskState, this);
+        System.out.println(taskState);
+        taskState = FileHandler.readCheckboxData(this);
+        adapterSecondary = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, taskState);
         taskListState.setAdapter(adapterSecondary);
 
     }
@@ -155,13 +250,33 @@ public class DailyTasksActivity extends AppCompatActivity implements OnClickList
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
         tasks.remove(position);
         adapter.notifyDataSetChanged();
-        checkboxState.remove(position);
+        taskState.remove(position);
 
         FileHandler.writeDailiesData(tasks, this);
-        FileHandler.setCheckboxValue(checkboxState, this);
+        FileHandler.setCheckboxValue(taskState, this);
         Toast.makeText(this, "Task Removed", Toast.LENGTH_SHORT).show();
 
         return true;
+    }
+
+    public void saveData() {
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putInt(HEALTH_VALUE, healthValue);
+        editor.putInt(GOLD_VALUE, goldValue);
+
+        editor.commit();
+    }
+
+    public void loadData() {
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
+
+        healthValue = sharedPreferences.getInt(HEALTH_VALUE, 100);
+        healthTextView.setText(String.valueOf(healthValue));
+
+        goldValue = sharedPreferences.getInt(GOLD_VALUE, 0);
+        goldTextView.setText(String.valueOf(goldValue));
     }
 
 }
