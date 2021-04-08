@@ -31,10 +31,12 @@ public class DailyTasksActivity extends AppCompatActivity implements OnClickList
     private TextView goldTextView;
     private int healthValue;
     private int goldValue;
+    //private int combatValue;
 
-    public static final String SHARED_PREFERENCES = "sharedPreferences";
+    public static final String SHARED_PREFERENCES = "sharedPreferences"; // creating static values (values that can't be changed) so that the shared preference can use them
     public static final String HEALTH_VALUE = "healthValue";
     public static final String GOLD_VALUE = "goldValue";
+    //public static final String COMBAT_VALUE = "combatValue";
 
     private ArrayList<String> tasks; // declaring a private ArrayLists to store all of the tasks the user has made
     private ArrayList<String> taskState; // declaring a private ArrayList to reflect the state of the tasks on the tasks ArrayList
@@ -65,8 +67,8 @@ public class DailyTasksActivity extends AppCompatActivity implements OnClickList
         adapterSecondary = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, taskState); // the same as the lines above but for the status ListView
         taskListState.setAdapter(adapterSecondary);
 
-        healthTextView.setText(String.valueOf(healthValue));
-        goldTextView.setText(String.valueOf(goldValue));
+        healthTextView.setText(String.valueOf(healthValue)); // Setting the value of the healthTextView to be the same as the integer held in healthValue
+        goldTextView.setText(String.valueOf(goldValue)); // Setting the value of the goldTextView to be the same as the integer held in goldValue
 
         System.out.println("tasks: "+ tasks);
         System.out.println("checkboxState: "+ taskState);
@@ -76,61 +78,31 @@ public class DailyTasksActivity extends AppCompatActivity implements OnClickList
         taskList.setOnItemClickListener(this); // onClick capabilities for the ListView
         taskList.setOnItemLongClickListener(this); // onLongClick capabilities for the ListView (click and hold for over a second)
 
-        // setting toDoListButton to have onClick capabilities
-        toDoListPageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)  { openToDoListActivity(); } // when clicked it will call the OpenToDoListActivity method
-        });
-
-        // setting shopButton to have onClick capabilities
-        shopPageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)  { openShopActivity(); } // when clicked it will call the OpenShopActivity method
-        });
-
-        // setting combatButton to have onClick capabilities
-        combatPageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)  { openCombatActivity(); } // when clicked it will call the OpenCombatActivity method
-        });
-
+        // when clicked it will call the beforeBedCashIn method
         beforeBedCashInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) { beforeBedCashIn(); }
-
         });
 
-        loadData();
-    }
+        // when clicked it will call the OpenToDoListActivity method
+        toDoListPageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)  { openToDoListActivity(); }
+        });
 
-    /**
-     * This method will call the startActivity method and pass the intent to it this will let it
-     * know which page to go to, in this case that will be the ToDoList page
-     */
-    public void openToDoListActivity() {
-        saveData();
-        Intent intent = new Intent(this, ToDoListActivity.class);
-        startActivity(intent);
-    }
+        // when clicked it will call the OpenShopActivity method
+        shopPageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)  { openShopActivity(); }
+        });
 
-    /**
-     * This method will call the startActivity method and pass the intent to it this will let it
-     * know which page to go to, in this case that will be the Shop page
-     */
-    public void openShopActivity() {
-        saveData();
-        Intent intent = new Intent(this, ShopActivity.class);
-        startActivity(intent);
-    }
+        // when clicked it will call the OpenCombatActivity method
+        combatPageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)  { openCombatActivity(); }
+        });
 
-    /**
-     * This method will call the startActivity method and pass the intent to it this will let it
-     * know which page to go to, in this case that will be the Combat page
-     */
-    public void openCombatActivity() {
-        saveData();
-        Intent intent = new Intent(this, CombatActivity.class);
-        startActivity(intent);
+        loadData(); // calls loadData
     }
 
     /**
@@ -166,6 +138,17 @@ public class DailyTasksActivity extends AppCompatActivity implements OnClickList
         }
     }
 
+    /**
+     * This method will iterate through the statuses of the tasks that the user as set and check
+     * which ones the user has completed and which ones they haven't. For each one that they have
+     * completed counterCompleted will be incremented, for each one they haven't counterIncomplete
+     * will be incremented. The total completed tasks will give the user 10 gold for each task they
+     * have completed which gets added onto goldValue. The total incomplete tasks will remove 5
+     * health for each task and overwrite healthValue. Both of the values update their associated
+     * TextViews. All completed tasks statuses are set to incomplete the state of each task is then
+     * saved to overwrite it's file. The user get's a toast to show that they have cashed in and
+     * good night. The data is then saved again.
+     */
     public void beforeBedCashIn() {
         int counterCompleted = 0;
         int counterIncomplete = 0;
@@ -181,17 +164,21 @@ public class DailyTasksActivity extends AppCompatActivity implements OnClickList
         healthValue = healthValue - (counterIncomplete*5);
         goldValue = goldValue + (counterCompleted*10);
 
+        if (healthValue < 0) {
+            healthValue = 0;
+            Toast.makeText(this, "You are hurt badly and can't fight until you have healed!", Toast.LENGTH_SHORT).show();
+        }
+
         healthTextView.setText(String.valueOf(healthValue));
         goldTextView.setText(String.valueOf(goldValue));
 
-        FileHandler.writeDailiesData(tasks, this);
         FileHandler.setCheckboxValue(taskState, this);
 
         taskState = FileHandler.readCheckboxData(this);
         adapterSecondary = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, taskState);
         taskListState.setAdapter(adapterSecondary);
-        Toast.makeText(this, "Your tasks have been cashed in, Good night", Toast.LENGTH_SHORT).show();
-        Toast.makeText(this, "Good night!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Innkeeper says: 'Your tasks have been cashed in'", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "'Good night!'", Toast.LENGTH_SHORT).show();
 
         saveData();
     }
@@ -259,6 +246,40 @@ public class DailyTasksActivity extends AppCompatActivity implements OnClickList
         return true;
     }
 
+    /**
+     * This method will call saveData and call the startActivity method and pass the intent to it this will let it
+     * know which page to go to, in this case that will be the ToDoList page
+     */
+    public void openToDoListActivity() {
+        saveData();
+        Intent intent = new Intent(this, ToDoListActivity.class);
+        startActivity(intent);
+    }
+
+    /**
+     * This method will call saveData and call the startActivity method and pass the intent to it this will let it
+     * know which page to go to, in this case that will be the Shop page
+     */
+    public void openShopActivity() {
+        saveData();
+        Intent intent = new Intent(this, ShopActivity.class);
+        startActivity(intent);
+    }
+
+    /**
+     * This method will call saveData and call the startActivity method and pass the intent to it this will let it
+     * know which page to go to, in this case that will be the Combat page
+     */
+    public void openCombatActivity() {
+        saveData();
+        Intent intent = new Intent(this, CombatActivity.class);
+        startActivity(intent);
+    }
+
+    /**
+     * When called this method will create a new set of shared preferences that will enable
+     * it to save values of the variables held in it and commit them to preferences
+     */
     public void saveData() {
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -269,6 +290,11 @@ public class DailyTasksActivity extends AppCompatActivity implements OnClickList
         editor.commit();
     }
 
+    /**
+     * When called this method will load up the values previously set from the saveData method
+     * if the variables have no previously stored preference then the defaults will be as shown
+     * below
+     */
     public void loadData() {
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
 

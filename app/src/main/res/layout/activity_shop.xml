@@ -54,7 +54,6 @@
         android:text=" xxx " />
 
     <!-- Creating Button to access the daily page -->
-    <!-- Creating Button to access the daily page -->
     <Button
         android:id="@+id/dailiesPageButton"
         android:layout_width="100dp"
@@ -111,5 +110,96 @@
         android:layout_marginTop="30dp"
         android:text="Shop Page!"
         />
+
+    <!-- Creating an ImageButton to show the potion icon and let the user buy it -->
+    <ImageButton
+        android:id="@+id/potionImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="130dp"
+        android:background="@drawable/potion_image" />
+
+    <!-- Creating a TextView to show the potion description -->
+    <TextView
+        android:id="@+id/potionCostText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="240dp"
+        android:text="Health potion cost: 50g" />
+
+
+    <!-- Creating a TextView to show the cost of the potion -->
+    <TextView
+        android:id="@+id/potionDescriptionText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="260dp"
+        android:text="Instantly heals the user by 25hp (health points) on purchase" />
+
+    <!-- Creating an ImageButton to show the dagger icon and let the user buy it -->
+    <ImageButton
+        android:id="@+id/daggerImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="330dp"
+        android:background="@drawable/dagger_image" />
+
+    <!-- Creating a TextView to show the cost of the dagger -->
+    <TextView
+        android:id="@+id/daggerCostText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="440dp"
+        android:text="Dagger cost: 100g" />
+
+    <!-- Creating a TextView to show the description of the dagger -->
+    <TextView
+        android:id="@+id/daggerDescriptionText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="460dp"
+        android:text="Gives the user +5cb (combat power)" />
+
+    <!-- Creating a TextView to show the user how to buy an item -->
+    <TextView
+        android:id="@+id/toolTipText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="70dp"
+        android:text="Click on an item to buy and use it! " />
+
+    <!-- Creating a TextView to show where the user's combat value is shown -->
+    <TextView
+        android:id="@+id/combatText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="530dp"
+        android:text="Current Combat Value: " />
+
+    <!-- Creating a TextView to show the user's combat value -->
+    <TextView
+        android:id="@+id/combatValueTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="550dp"
+        android:text=" xxx " />
 
 </RelativeLayout>

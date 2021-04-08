@@ -36,7 +36,7 @@ public class FileHandler {
 
     /**
      * Reads the ArrayList from the file name "DAILIES_FILENAME". Then returns the ArrayList
-     * that was read.
+     * that was read. If nothing is found catch the error and create a new taskList empty arrayList.
      *
      * @param  context the context in which the method is being called from
      * @return  taskList the ArrayList from the file
@@ -79,7 +79,7 @@ public class FileHandler {
 
     /**
      * Reads the ArrayList from the file name "DAILIES_FILENAME". Then returns the ArrayList
-     * that was read.
+     * that was read. If nothing is found catch the error and create a new taskList empty arrayList.
      *
      * @param  context the context in which the method is being called from
      * @return  taskList the ArrayList from the file
@@ -122,7 +122,7 @@ public class FileHandler {
 
     /**
      * Reads the ArrayList from the file name "TO_DO_FILENAME". Then returns the ArrayList
-     * that was read.
+     * that was read. If nothing is found catch the error and create a new taskList empty arrayList.
      *
      * @param  context the context in which the method is being called from
      * @return  taskList the ArrayList from the file

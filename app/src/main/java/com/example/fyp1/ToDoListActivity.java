@@ -32,7 +32,7 @@ public class ToDoListActivity extends AppCompatActivity implements View.OnClickL
     private int healthValue;
     private int goldValue;
 
-    public static final String SHARED_PREFERENCES = "sharedPreferences";
+    public static final String SHARED_PREFERENCES = "sharedPreferences"; // creating static values (values that can't be changed) so that the shared preference can use them
     public static final String HEALTH_VALUE = "healthValue";
     public static final String GOLD_VALUE = "goldValue";
 
@@ -57,61 +57,32 @@ public class ToDoListActivity extends AppCompatActivity implements View.OnClickL
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, tasks); // create a new ArrayAdapter that uses a simple list based off the tasks
         toDoList.setAdapter(adapter); // setting the new ArrayAdapter to correspond with the ListView of tasks
 
-        healthTextView.setText(String.valueOf(healthValue));
-        goldTextView.setText(String.valueOf(goldValue));
+        healthTextView.setText(String.valueOf(healthValue)); // Setting the value of the healthTextView to be the same as the integer held in healthValue
+        goldTextView.setText(String.valueOf(goldValue)); // Setting the value of the goldTextView to be the same as the integer held in goldValue
 
         newToDoTaskButton.setOnClickListener(this); // setting newToDoTaskButton have onClick capabilities
         toDoList.setOnItemClickListener(this); // onClick capabilities for the ListView
         toDoList.setOnItemLongClickListener(this); // onLongClick capabilities for the ListView (click and hold for over a second)
 
-        // setting dailiesPageButton to have onClick capabilities
+        // when clicked it will call the OpenDailiesActivity method
         dailiesPageButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)  { openDailiesActivity(); } // when clicked it will call the OpenDailiesActivity method
+            public void onClick(View v)  { openDailiesActivity(); }
         });
 
-        // setting shopButton to have onClick capabilities
+        // when clicked it will call the OpenShopActivity method
         shopPageButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)  { openShopActivity(); } // when clicked it will call the OpenShopActivity method
+            public void onClick(View v)  { openShopActivity(); }
         });
 
-        // setting combatButton to have onClick capabilities
+        // when clicked it will call the OpenCombatActivity method
         combatPageButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)  { openCombatActivity(); } // when clicked it will call the OpenCombatActivity method
+            public void onClick(View v)  { openCombatActivity(); }
         });
 
         loadData();
-    }
-    /**
-     * This method will call the startActivity method and pass the intent to it this will let it
-     * know which page to go to, in this case that will be the DailyTasksActivity page
-     */
-    public void openDailiesActivity() {
-        saveData();
-        Intent intent = new Intent(this, DailyTasksActivity.class);
-        startActivity(intent);
-    }
-
-    /**
-     * This method will call the startActivity method and pass the intent to it this will let it
-     * know which page to go to, in this case that will be the Shop page
-     */
-    public void openShopActivity() {
-        saveData();
-        Intent intent = new Intent(this, ShopActivity.class);
-        startActivity(intent);
-    }
-
-    /**
-     * This method will call the startActivity method and pass the intent to it this will let it
-     * know which page to go to, in this case that will be the Combat page
-     */
-    public void openCombatActivity() {
-        saveData();
-        Intent intent = new Intent(this, CombatActivity.class);
-        startActivity(intent);
     }
 
     /**
@@ -147,8 +118,8 @@ public class ToDoListActivity extends AppCompatActivity implements View.OnClickL
 
     /**
      * When called this method will remove the task corresponding with it's position and then
-     * write the updated tasks ArrayList to the ToDoList file. A toast is shown saying "Task
-     * Completed".
+     * write the updated tasks ArrayList to the ToDoList file. The user is rewarded by giving them
+     * 5 gold for completing the task. A toast is shown saying "Task Completed".
      *
      * @param  parent  The parent adapter view
      * @param  view  The current view
@@ -189,6 +160,10 @@ public class ToDoListActivity extends AppCompatActivity implements View.OnClickL
         return true;
     }
 
+    /**
+     * When called this method will create a new set of shared preferences that will enable
+     * it to save values of the variables held in it and commit them to preferences
+     */
     public void saveData() {
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -199,6 +174,41 @@ public class ToDoListActivity extends AppCompatActivity implements View.OnClickL
         editor.commit();
     }
 
+    /**
+     * This method will call saveData and call the startActivity method and pass the intent to it this will let it
+     * know which page to go to, in this case that will be the DailyTasksActivity page
+     */
+    public void openDailiesActivity() {
+        saveData();
+        Intent intent = new Intent(this, DailyTasksActivity.class);
+        startActivity(intent);
+    }
+
+    /**
+     * This method will call saveData and call the startActivity method and pass the intent to it this will let it
+     * know which page to go to, in this case that will be the Shop page
+     */
+    public void openShopActivity() {
+        saveData();
+        Intent intent = new Intent(this, ShopActivity.class);
+        startActivity(intent);
+    }
+
+    /**
+     * This method will call saveData and call the startActivity method and pass the intent to it this will let it
+     * know which page to go to, in this case that will be the Combat page
+     */
+    public void openCombatActivity() {
+        saveData();
+        Intent intent = new Intent(this, CombatActivity.class);
+        startActivity(intent);
+    }
+
+    /**
+     * When called this method will load up the values previously set from the saveData method
+     * if the variables have no previously stored preference then the defaults will be as shown
+     * below
+     */
     public void loadData() {
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
 

@@ -101,14 +101,76 @@
         android:textSize="12dp"
         android:text="Combat" />
 
+    <!-- Creating an ImageButton to show the enemy icon -->
+    <ImageView
+        android:id="@+id/potionImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="130dp"
+        android:background="@drawable/enemy1_image" />
+
+    <!-- Creating a TextView to show where the enemy's health points are -->
+    <TextView
+        android:id="@+id/enemyText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="340dp"
+        android:text="Enemy Health Points:" />
+
+    <!-- Creating a TextView to show the enemy's health points -->
+    <TextView
+        android:id="@+id/enemyHealthValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="360dp"
+        android:text=" xxx " />
+
     <!-- Creating a TextView to show the current page is the to do list page -->
     <TextView
-        android:id="@+id/ShopText"
+        android:id="@+id/CombatText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
         android:text="Combat Page!"
         />
+
+    <!-- Creating a TextView to show where the user's combat value is shown -->
+    <TextView
+        android:id="@+id/combatText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="450dp"
+        android:text="Current Combat Value: " />
+
+    <!-- Creating a TextView to show the user's combat value -->
+    <TextView
+        android:id="@+id/combatValueTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="470dp"
+        android:text=" xxx " />
+
+    <!-- Creating Button fight an enemy -->
+    <Button
+        android:id="@+id/fightButton"
+        android:layout_width="120dp"
+        android:layout_height="70dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="80dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="90dp"
+        android:textSize="20dp"
+        android:text="Fight!" />
 
 </RelativeLayout>
