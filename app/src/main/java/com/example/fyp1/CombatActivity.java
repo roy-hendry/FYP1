@@ -23,6 +23,7 @@ public class CombatActivity extends AppCompatActivity {
     private TextView healthTextView;
     private TextView goldTextView;
     private TextView combatTextView;
+    private TextView enemyHealthView;
 
     private int healthValue;
     private int goldValue;
@@ -47,10 +48,12 @@ public class CombatActivity extends AppCompatActivity {
         healthTextView = findViewById(R.id.healthValueTextView);
         goldTextView = findViewById(R.id.goldValueTextView);
         combatTextView = findViewById(R.id.combatValueTextView);
+        enemyHealthView = findViewById(R.id.enemyHealthValueTextView);
 
         healthTextView.setText(String.valueOf(healthValue)); // Setting the value of the healthTextView to be the same as the integer held in healthValue
         goldTextView.setText(String.valueOf(goldValue)); // Setting the value of the goldTextView to be the same as the integer held in goldValue
         combatTextView.setText(String.valueOf(combatValue)); // Setting the value of the combatTextView to be the same as the integer held in combatValue
+        enemyHealthView.setText(String.valueOf(enemyHealth)); // Setting the value of the enemyHealthView to be the same as the integer held in enemyHealth
 
         fightButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,10 +87,29 @@ public class CombatActivity extends AppCompatActivity {
         }
         else {
             Random random = new Random();
-            int randInt = random.nextInt((100-1 +1) + 1); //choose a random number between 1 and 100 (100 is not included by default so we need to add 1)
-
-            //healthValue = healthValue - (combatValue *
+            while (enemyHealth > 0 & healthValue > 0) {
+                int randDamageInt = random.nextInt((5 - 1 + 1) + 1); //choose a random number between 1 and 5 (5 is not included by default so we need to add 1)
+                int damageCalc = combatValue * randDamageInt;
+                int userDamage = damageCalc / 2;
+                healthValue = healthValue - userDamage;
+                enemyHealth = enemyHealth - damageCalc * 2;
+            }
+            if (healthValue < 0) {
+                healthValue = 0;
+                Toast.makeText(this, "You've taken a lot of damage so you run away from the enemy!", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Heal up and come back!", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                int randRewardInt = random.nextInt((10 - 1 + 1) + 1);
+                goldValue = goldValue + 10 * randRewardInt;
+                Toast.makeText(this, "Good job, you defeated the enemy and have been rewarded gold!", Toast.LENGTH_LONG).show();
+                enemyHealth = 100;
+            }
         }
+        healthTextView.setText(String.valueOf(healthValue)); // updating views showing player values
+        goldTextView.setText(String.valueOf(goldValue));
+        enemyHealthView.setText(String.valueOf(enemyHealth));
+        saveData();
     }
 
     /**

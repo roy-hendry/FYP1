@@ -61,8 +61,7 @@
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="2dp"
-        android:layout_marginTop="610dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="40dp"
         android:textSize="14dp"
         android:text="Dailies" />
 
@@ -73,8 +72,7 @@
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="102dp"
-        android:layout_marginTop="610dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="40dp"
         android:textSize="12dp"
         android:text="To Do List" />
 
@@ -85,8 +83,7 @@
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="202dp"
-        android:layout_marginTop="610dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="40dp"
         android:textSize="14dp"
         android:text="Shop" />
 
@@ -97,8 +94,7 @@
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="302dp"
-        android:layout_marginTop="610dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="40dp"
         android:textSize="12dp"
         android:text="Combat" />
 

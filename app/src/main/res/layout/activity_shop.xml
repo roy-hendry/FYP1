@@ -60,8 +60,7 @@
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="2dp"
-        android:layout_marginTop="610dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="40dp"
         android:textSize="14dp"
         android:text="Dailies" />
 
@@ -72,8 +71,7 @@
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="102dp"
-        android:layout_marginTop="610dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="40dp"
         android:textSize="12dp"
         android:text="To Do List" />
 
@@ -84,8 +82,7 @@
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="202dp"
-        android:layout_marginTop="610dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="40dp"
         android:textSize="14dp"
         android:text="Shop" />
 
@@ -96,8 +93,7 @@
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="302dp"
-        android:layout_marginTop="610dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="40dp"
         android:textSize="12dp"
         android:text="Combat" />
 
@@ -170,7 +166,7 @@
         android:layout_centerHorizontal="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="460dp"
-        android:text="Gives the user +5cb (combat power)" />
+        android:text="Gives the user 5cb (combat power)" />
 
     <!-- Creating a TextView to show the user how to buy an item -->
     <TextView
@@ -189,7 +185,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="530dp"
+        android:layout_marginTop="510dp"
         android:text="Current Combat Value: " />
 
     <!-- Creating a TextView to show the user's combat value -->
@@ -199,7 +195,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="550dp"
+        android:layout_marginTop="530dp"
         android:text=" xxx " />
 
 </RelativeLayout>

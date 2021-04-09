@@ -92,7 +92,7 @@ public class ShopActivity extends AppCompatActivity {
      *
      */
     public void buyPotion() {
-        if (goldValue >= 25) {
+        if (goldValue >= 50) {
             if (healthValue == 100) {
                 Toast.makeText(this, "Shop owner says: 'You seem healthy enough!'", Toast.LENGTH_LONG).show();
             }
@@ -125,6 +125,7 @@ public class ShopActivity extends AppCompatActivity {
             else {
                 goldValue = goldValue - 100;
                 combatValue = 5;
+                Toast.makeText(this, "Shop owner says: 'Here you go!'", Toast.LENGTH_SHORT).show();
             }
         }
         else {
