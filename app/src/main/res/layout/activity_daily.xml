@@ -54,50 +54,52 @@
         android:layout_marginTop="10dp"
         android:text=" xxx " />
 
-    <!-- Creating Button to access the daily page -->
-    <Button
-        android:id="@+id/dailiesPageButton"
-        android:layout_width="100dp"
+    <!-- LinearLayout for all of the navigation buttons -->
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="60dp"
-
+        android:gravity="center_horizontal"
         android:layout_alignParentBottom="true"
-        android:layout_marginLeft="2dp"
         android:layout_marginBottom="40dp"
-        android:textSize="14dp"
-        android:text="Dailies" />
+        android:weightSum="4">
 
-    <!-- Creating Button to access the to do list page -->
-    <Button
-        android:id="@+id/toDoListPageButton"
-        android:layout_width="100dp"
-        android:layout_height="60dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="102dp"
-        android:layout_marginBottom="40dp"
-        android:textSize="12dp"
-        android:text="To Do List" />
+        <!-- Creating Button to access the daily page -->
+        <Button
+            android:id="@+id/dailiesPageButton"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:textSize="12dp"
+            android:text="Dailies"/>
 
-    <!-- Creating Button to access the shop page -->
-    <Button
-        android:id="@+id/shopPageButton"
-        android:layout_width="100dp"
-        android:layout_height="60dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="202dp"
-        android:layout_marginBottom="40dp"
-        android:textSize="14dp"
-        android:text="Shop" />
+        <!-- Creating Button to access the to do list page -->
+        <Button
+            android:id="@+id/toDoListPageButton"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:textSize="12dp"
+            android:text="To-Do"/>
 
-    <!-- Creating Button to access the combat page -->
-    <Button
-        android:id="@+id/combatPageButton"
-        android:layout_width="100dp"
-        android:layout_height="60dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="302dp"
-        android:layout_marginBottom="40dp"
-        android:textSize="12dp"
-        android:text="Combat" />
+        <!-- Creating Button to access the shop page -->
+        <Button
+            android:id="@+id/shopPageButton"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:textSize="12dp"
+            android:text="Shop"/>
+
+        <!-- Creating Button to access the combat page -->
+        <Button
+            android:id="@+id/combatPageButton"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:textSize="12dp"
+            android:text="Combat"/>
+
+    </LinearLayout>
 
     <!-- Creating Button to make a new daily task -->
     <Button
@@ -114,9 +116,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="80dp"
+        android:layout_marginBottom="120dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="100dp"
         android:text="Before bed cash in" />
 
     <!-- Creating a TextView to show the current page is the daily task page -->

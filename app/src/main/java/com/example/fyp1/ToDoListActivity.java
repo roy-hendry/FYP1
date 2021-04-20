@@ -28,7 +28,6 @@ public class ToDoListActivity extends AppCompatActivity implements View.OnClickL
 
     private TextView healthTextView;
     private TextView goldTextView;
-
     private int healthValue;
     private int goldValue;
 
@@ -36,8 +35,8 @@ public class ToDoListActivity extends AppCompatActivity implements View.OnClickL
     public static final String HEALTH_VALUE = "healthValue";
     public static final String GOLD_VALUE = "goldValue";
 
-    private ArrayList<String> tasks; // declaring a private ArrayLists to store all of the tasks the user has made
-    private ArrayAdapter<String> adapter; // declaring adapter ArrayList to interact with elements of the ListView
+    private ArrayList<String> tasks; // declaring a private ArrayLists for the user's information to be stored
+    private ArrayAdapter<String> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,11 +56,11 @@ public class ToDoListActivity extends AppCompatActivity implements View.OnClickL
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, tasks); // create a new ArrayAdapter that uses a simple list based off the tasks
         toDoList.setAdapter(adapter); // setting the new ArrayAdapter to correspond with the ListView of tasks
 
-        healthTextView.setText(String.valueOf(healthValue)); // Setting the value of the healthTextView to be the same as the integer held in healthValue
-        goldTextView.setText(String.valueOf(goldValue)); // Setting the value of the goldTextView to be the same as the integer held in goldValue
+        healthTextView.setText(String.valueOf(healthValue)); // Setting the text views so that they show item values
+        goldTextView.setText(String.valueOf(goldValue));
 
-        newToDoTaskButton.setOnClickListener(this); // setting newToDoTaskButton have onClick capabilities
-        toDoList.setOnItemClickListener(this); // onClick capabilities for the ListView
+        newToDoTaskButton.setOnClickListener(this); // setting buttons to have onClick capabilities
+        toDoList.setOnItemClickListener(this);
         toDoList.setOnItemLongClickListener(this); // onLongClick capabilities for the ListView (click and hold for over a second)
 
         // when clicked it will call the OpenDailiesActivity method

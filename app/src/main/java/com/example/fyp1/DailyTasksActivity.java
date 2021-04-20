@@ -31,17 +31,15 @@ public class DailyTasksActivity extends AppCompatActivity implements OnClickList
     private TextView goldTextView;
     private int healthValue;
     private int goldValue;
-    //private int combatValue;
 
     public static final String SHARED_PREFERENCES = "sharedPreferences"; // creating static values (values that can't be changed) so that the shared preference can use them
     public static final String HEALTH_VALUE = "healthValue";
     public static final String GOLD_VALUE = "goldValue";
-    //public static final String COMBAT_VALUE = "combatValue";
 
-    private ArrayList<String> tasks; // declaring a private ArrayLists to store all of the tasks the user has made
-    private ArrayList<String> taskState; // declaring a private ArrayList to reflect the state of the tasks on the tasks ArrayList
-    private ArrayAdapter<String> adapter; // declaring adapter ArrayList to interact with elements of the ListView
-    private ArrayAdapter<String> adapterSecondary; // declaring adapter ArrayList to interact with elements of the task ListView's states
+    private ArrayList<String> tasks; // declaring a private ArrayLists for the user's information to be stored
+    private ArrayList<String> taskState;
+    private ArrayAdapter<String> adapter;
+    private ArrayAdapter<String> adapterSecondary;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,21 +59,20 @@ public class DailyTasksActivity extends AppCompatActivity implements OnClickList
 
         tasks = FileHandler.readDailiesData(this); // calls the readDailiesData method inside the FileHandler to recall data written from the appropriate file and reload it
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, tasks); // create a new ArrayAdapter that uses a simple list based off the tasks
-        taskList.setAdapter(adapter); // setting the new ArrayAdapter to correspond with the ListView of tasks
-        taskState = FileHandler.readCheckboxData(this); // by calling readCheckBoxData data will be read from inside the appropriate
-                                                                    // file and loaded to set the checkbox states to what they were previously
-        adapterSecondary = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, taskState); // the same as the lines above but for the status ListView
+        taskList.setAdapter(adapter);
+        taskState = FileHandler.readCheckboxData(this);
+        adapterSecondary = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, taskState);
         taskListState.setAdapter(adapterSecondary);
 
-        healthTextView.setText(String.valueOf(healthValue)); // Setting the value of the healthTextView to be the same as the integer held in healthValue
-        goldTextView.setText(String.valueOf(goldValue)); // Setting the value of the goldTextView to be the same as the integer held in goldValue
+        healthTextView.setText(String.valueOf(healthValue)); // Setting the text views so that they show item values
+        goldTextView.setText(String.valueOf(goldValue));
 
         System.out.println("tasks: "+ tasks);
         System.out.println("checkboxState: "+ taskState);
 
         newDailyButton.setOnClickListener(this); // setting newDailyButton have onClick capabilities
-        beforeBedCashInButton.setOnClickListener(this); // setting beforeBedCashInButton have onClick capabilities
-        taskList.setOnItemClickListener(this); // onClick capabilities for the ListView
+        beforeBedCashInButton.setOnClickListener(this);
+        taskList.setOnItemClickListener(this);
         taskList.setOnItemLongClickListener(this); // onLongClick capabilities for the ListView (click and hold for over a second)
 
         // when clicked it will call the beforeBedCashIn method
@@ -108,8 +105,7 @@ public class DailyTasksActivity extends AppCompatActivity implements OnClickList
     /**
      * This method will be called when a user clicks the newDailyButton when clicked will take the
      * string inside the EditText box known as "taskEditText" and it will check if the string is
-     * empty if all of the spaces are taken out.
-     * If the string is not empty then set the text box
+     * empty if all of the spaces are taken out. If the string is not empty then set the text box
      * to empty, create a new task with the string from the EditText box, create a new checkbox
      * state to correspond with it, set it to "Incomplete", and write the value of the checkbox state
      * and the new task to their appropriate files then show a toast saying "Task Added".
@@ -177,8 +173,7 @@ public class DailyTasksActivity extends AppCompatActivity implements OnClickList
         taskState = FileHandler.readCheckboxData(this);
         adapterSecondary = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, taskState);
         taskListState.setAdapter(adapterSecondary);
-        Toast.makeText(this, "Innkeeper says: 'Your tasks have been cashed in'", Toast.LENGTH_SHORT).show();
-        Toast.makeText(this, "'Good night!'", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Innkeeper says: 'Your tasks have been cashed in. Good night'", Toast.LENGTH_LONG).show();
 
         saveData();
     }

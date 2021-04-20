@@ -29,7 +29,6 @@ public class ShopActivity extends AppCompatActivity {
     private TextView healthTextView;
     private TextView goldTextView;
     private TextView combatTextView;
-
     private int healthValue;
     private int goldValue;
     private int combatValue;
@@ -53,9 +52,9 @@ public class ShopActivity extends AppCompatActivity {
         goldTextView = findViewById(R.id.goldValueTextView);
         combatTextView = findViewById(R.id.combatValueTextView);
 
-        healthTextView.setText(String.valueOf(healthValue)); // Setting the value of the healthTextView to be the same as the integer held in healthValue
-        goldTextView.setText(String.valueOf(goldValue)); // Setting the value of the goldTextView to be the same as the integer held in goldValue
-        combatTextView.setText(String.valueOf(combatValue)); // Setting the value of the combatTextView to be the same as the integer held in combatValue
+        healthTextView.setText(String.valueOf(healthValue)); // Setting the text views so that they show item values
+        goldTextView.setText(String.valueOf(goldValue));
+        combatTextView.setText(String.valueOf(combatValue));
 
         potionImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,7 +88,14 @@ public class ShopActivity extends AppCompatActivity {
     }
 
     /**
-     *
+     * When called this method will check the user's goldValue to see if it is greater than or equal to 50.
+     * If the user does not have at least 50 gold then they will be told that they need to do more
+     * tasks to get some more gold then come back. If it is then it will check if their health is is equal to 100,
+     * if they are it will state that they are already full on health. 50 gold is removed from their
+     * goldValue and 25 health is added to their healthValue. If the user's health is greater than
+     * 100 then their health is reset back to 100. They are told that they drink the potion and
+     * have gained some health. The TextViews are updated for their health and gold and
+     * SharedPreferences are saved.
      */
     public void buyPotion() {
         if (goldValue >= 50) {
@@ -102,7 +108,7 @@ public class ShopActivity extends AppCompatActivity {
                 if (healthValue >= 100) {
                     healthValue = 100;
                 }
-                Toast.makeText(this, "You drink the simple health potion and gain some health", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "You drink the health potion and gain some health", Toast.LENGTH_SHORT).show();
             }
         }
         else {
@@ -115,7 +121,12 @@ public class ShopActivity extends AppCompatActivity {
     }
 
     /**
-     *
+     * When called this method will check the user's gold to see if they have at least 100 gold.
+     * If they do not then they are told that they will need to do more tasks to earn more gold.
+     * If they have at least 100 gold then check to see if their combat level is equal to 5,
+     * if it is tell the user that they already have this item. If the do not have 5 combatValue
+     * then remove 100 gold from their goldValue, set their combatValue to 5 and tell the user
+     * that they have been given the item. Update TextViews and save the SharedPreferences.
      */
     public void buyDagger() {
         if (goldValue >= 100) {

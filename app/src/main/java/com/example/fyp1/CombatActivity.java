@@ -24,7 +24,6 @@ public class CombatActivity extends AppCompatActivity {
     private TextView goldTextView;
     private TextView combatTextView;
     private TextView enemyHealthView;
-
     private int healthValue;
     private int goldValue;
     private int combatValue;
@@ -50,10 +49,10 @@ public class CombatActivity extends AppCompatActivity {
         combatTextView = findViewById(R.id.combatValueTextView);
         enemyHealthView = findViewById(R.id.enemyHealthValueTextView);
 
-        healthTextView.setText(String.valueOf(healthValue)); // Setting the value of the healthTextView to be the same as the integer held in healthValue
-        goldTextView.setText(String.valueOf(goldValue)); // Setting the value of the goldTextView to be the same as the integer held in goldValue
-        combatTextView.setText(String.valueOf(combatValue)); // Setting the value of the combatTextView to be the same as the integer held in combatValue
-        enemyHealthView.setText(String.valueOf(enemyHealth)); // Setting the value of the enemyHealthView to be the same as the integer held in enemyHealth
+        healthTextView.setText(String.valueOf(healthValue)); // Setting the text views so that they show item values
+        goldTextView.setText(String.valueOf(goldValue));
+        combatTextView.setText(String.valueOf(combatValue));
+        enemyHealthView.setText(String.valueOf(enemyHealth));
 
         fightButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,18 +80,32 @@ public class CombatActivity extends AppCompatActivity {
         loadData();
     }
 
+    /**
+     * This method when called will check the user's health, if the user's health is 0 then they
+     * will be told that they cannot fight in this state. Otherwise while the user and the enemy
+     * both have more than 0 health, they will be have a random value calculated to be multiplied
+     * by their combat value. The more the user's combat value the less damage that take per loop
+     * and the more damage the enemy take's per loop.
+     * Once the loop is exited there is another check to see if the user's health is below
+     *  0. If it is then it will reset the user's health to 0 and show them a toast to say that
+     * they have taken too much damage so cannot fight. Otherwise they are given gold partially
+     * based off a randomly generated value. Then they are told that they have been given gold.
+     * The enemy's health is reset to 100, all of the TextViews for the user values (health and gold)
+     * are updated then the game's SharedPreferences are saved.
+     */
     public void fight() {
         if (healthValue == 0) {
             Toast.makeText(this, "You can't fight like this, heal up first!", Toast.LENGTH_SHORT).show();
         }
         else {
-            Random random = new Random();
+            //Random random = new Random();
             while (enemyHealth > 0 & healthValue > 0) {
-                int randDamageInt = random.nextInt((5 - 1 + 1) + 1); //choose a random number between 1 and 5 (5 is not included by default so we need to add 1)
+                Random random = new Random();
+                int randDamageInt = random.nextInt(5) + 1; //choose a random number between 1 and 5 (5 is not included by default so we need to add 1)
                 int damageCalc = combatValue * randDamageInt;
-                int userDamage = damageCalc / 2;
+                int userDamage = (100 - damageCalc) / 10;
                 healthValue = healthValue - userDamage;
-                enemyHealth = enemyHealth - damageCalc * 2;
+                enemyHealth = enemyHealth - ((damageCalc * 2) + 5);
             }
             if (healthValue < 0) {
                 healthValue = 0;
@@ -100,15 +113,15 @@ public class CombatActivity extends AppCompatActivity {
                 Toast.makeText(this, "Heal up and come back!", Toast.LENGTH_SHORT).show();
             }
             else {
-                int randRewardInt = random.nextInt((10 - 1 + 1) + 1);
+                Random random = new Random();
+                int randRewardInt = random.nextInt(10) + 1;
                 goldValue = goldValue + 10 * randRewardInt;
                 Toast.makeText(this, "Good job, you defeated the enemy and have been rewarded gold!", Toast.LENGTH_LONG).show();
-                enemyHealth = 100;
             }
         }
+        enemyHealth = 100;
         healthTextView.setText(String.valueOf(healthValue)); // updating views showing player values
         goldTextView.setText(String.valueOf(goldValue));
-        enemyHealthView.setText(String.valueOf(enemyHealth));
         saveData();
     }
 
